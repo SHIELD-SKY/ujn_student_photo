@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>吓死爹了</title>
+		<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+
+	
+	</head>
+
+	<body>
+
+		<center style="margin-top: 100px;">
+			<h4 style="color: red;font-weight: 900;" >济南大学-根据学号查头像（惊悚篇）</h4> 开始学号: <input type="text" id="start"><br> <br /> 结束学号: <input type="text" id="end"><br /><br />
+			<button type="submit" id="sub">查询</button>
+			
+
+		</center>
+
+		<script type="text/javascript">
+			$(document).keydown(function(event) {
+
+				if(event.keyCode == 13) {
+					$('#sub').click();
+				}
+
+			});
+
+			$('#sub').click(function() {
+
+				var start = $('#start').val().trim();
+				var end = $('#end').val().trim();
+				var grade = start.substr(0, 4);
+				var intstart = parseInt(start, 10);
+				var intend = parseInt(end, 10);
+
+				if(start.length != 11 || end.length != 11 || isNaN(start) || isNaN(end)) {
+					alert('学号为11位数字格式！！');
+					$('#start').val('');
+					$('#end').val('');
+					$('#start').focus();
+					return false;
+				}
+				if(intend < intstart) {
+					alert('是不是傻，分不清开始、结束？');
+					$('#start').val('');
+					$('#end').val('');
+					$('#start').focus();
+					return false;
+				}
+
+				if((intend - intstart) >= 1000) {
+					alert('一次最多查询一千人');
+					$('#start').val('');
+					$('#end').val('');
+					$('#start').focus();
+					return false;
+				}
+
+				for(var i = intstart; i <= intend; i++) {
+					var url = 'http://iplat.ujn.edu.cn/photo/' + grade + '/' + i + '.jpg';
+					var errurl = "javascript:this.src='http://i1.piimg.com/558315/f9d56e4fc3e0851at.jpg'"
+					var ddiv = '<div class="images-wrapper" id=' + i + ' ></div>';
+					var iimg = '<img src="' + url + ' "  onerror=" ' + errurl + ' ;">  ';
+					// ddiv.append(iimg);
+					$('body').append(ddiv);
+					$('#' + i).append(iimg);
+
+					var num = '<div class="images-content">' + i + '</div>';
+
+					$('#' + i).append(num);
+
+					$('center').hide();
+
+				}
+			});
+		</script>
+
+		<style type="text/css">
+			.images-content {
+				position: absolute;
+				z-index: 1;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				color: #fff;
+				background: rgba(0, 0, 0, .7);
+				height: 24px;
+				line-height: 24px;
+				overflow: hidden;
+				font-size: 13px;
+				text-align: center;
+			}
+			
+			.images-wrapper {
+				width: 100px;
+				height: 133px;
+				float: left;
+				color: red;
+				font-weight: 700;
+				margin-left: 5px;
+				margin-top: 5px;
+				background-size: 100px 100px;
+				border: 1px dashed #CC3300;
+				position: relative;
+			}
+			
+			img {
+				width: 100px;
+				height: 133px;
+			}
+			
+			</body> </html>
